@@ -1,16 +1,18 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import {Button, Col, Container,Jumbotron, Row} from "react-bootstrap";
+import { Col, Container, Row} from "react-bootstrap";
 import axios from 'axios'
 import NavView from "./NavView";
 
 const App = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState('')
+
 
     useEffect(() => {
         getData().then(data => {
             if (data.features) {
-                setLoading(false)
+                setLoading(false);
                 setData(data.features.map(res => (res.attributes)).filter(r => r.Type === "Movie"))
             }
 
@@ -22,9 +24,23 @@ const App = () => {
     }, []);
 
     async function getData() {
-        setLoading(true)
+        setLoading(true);
         const response = await axios.get(`https://c2t-cabq-open-data.s3.amazonaws.com/film-locations-json-all-records_03-19-2020.json`);
         return response.data
+    }
+
+    const onChange = (e) => {
+        const {value} = e.target;
+        setSearch(value)
+    };
+    const searchForMovie = (e) => {
+        if (e.key === "Enter") {
+            setLoading(true);
+
+            setData(data.filter(res => res.Title === search))
+            setLoading(false)
+        }
+
     }
 
     // OBJECTID: 4474
@@ -41,8 +57,9 @@ const App = () => {
                     <Fragment>
                         <Col xs={12} sm={4} className="details" key={dat.OBJECTID}>
                             {/*<Image src="https://via.placeholder.com/150" circle className="profile-picture"/>*/}
-                            <h3 className="person-heading">{dat.Title}</h3>
-                            <p>{dat.Site}</p>
+                            <h3 className="movie-heading">Title: {dat.Title}</h3>
+                            <p>Site: {dat.Site}</p>
+                            <p>Address: {dat.Address}</p>
                             <hr/>
                         </Col>
 
@@ -56,11 +73,11 @@ const App = () => {
 
     return (
         <Container>
-            <NavView/>
+            <NavView search={search} onChange={onChange} searchForMovie={searchForMovie}/>
 
             <Row className="show-grid text-center" style={{paddingTop: '4%'}}>
 
-                {displayData}
+                {loading ? <small>loading...</small>: displayData}
             </Row>
 
         </Container>
