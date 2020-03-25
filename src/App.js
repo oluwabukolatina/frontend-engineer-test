@@ -3,6 +3,7 @@ import axios from 'axios'
 import {Container, Form} from "react-bootstrap";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api'
 import {GOOGLE_API_KEY} from "./Keys";
+import moment from "moment";
 
 const App = () => {
     const [data, setData] = useState([]);
@@ -60,7 +61,7 @@ const App = () => {
                     >
                         <div>
                             <h3 style={{textAlign: 'center'}}>{movie.Title}</h3>
-                            <h4>Shoot Date: {movie.ShootDate}</h4>
+                            <h4>Shoot Date: {moment(movie.ShootDate).format('DD-MM-YYYY')}</h4>
                             <h4>Movie Site: {movie.Site}</h4>
                             <h4>Movie Address: {movie.Address}</h4>
 
@@ -101,7 +102,7 @@ const App = () => {
                             height: "700px",
                             width: "100%"
                         }}
-                        zoom={9}
+                        zoom={11}
                         center={center}
                     >
 
