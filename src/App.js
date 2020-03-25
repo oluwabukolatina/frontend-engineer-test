@@ -25,9 +25,7 @@ const App = () => {
             if (data.features) {
                 setData((data.features).filter(r => r.attributes.Type === "Movie"));
                 setSelectMovies((data.features).filter(r => r.attributes.Type === "Movie"))
-
             }
-
         }).catch(err => {
             if (err) {
             }
@@ -44,6 +42,7 @@ const App = () => {
 
     const getSelectedMovie = (param) => {
         setMovie(param.attributes)
+
     };
 
     const displayMap = () => {
@@ -60,7 +59,11 @@ const App = () => {
                          position={{lat: Number(da.geometry.y), lng: Number(da.geometry.x)}}
                     >
                         <div>
-                            <small>{movie.Title}</small>
+                            <h3 style={{textAlign: 'center'}}>{movie.Title}</h3>
+                            <h4>Shoot Date: {movie.ShootDate}</h4>
+                            <h4>Movie Site: {movie.Site}</h4>
+                            <h4>Movie Address: {movie.Address}</h4>
+
                         </div>
                     </InfoWindow>: null}
 
