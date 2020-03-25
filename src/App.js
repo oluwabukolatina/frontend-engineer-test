@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
-import {Container, Form} from "react-bootstrap";
+import {Button, Card, Container, Form} from "react-bootstrap";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api'
 import {GOOGLE_API_KEY} from "./Keys";
 import moment from "moment";
@@ -59,13 +59,17 @@ const App = () => {
                     {isOpen && da.attributes.OBJECTID === movie.OBJECTID? <InfoWindow
                          position={{lat: Number(da.geometry.y), lng: Number(da.geometry.x)}}
                     >
-                        <div>
-                            <h3 style={{textAlign: 'center'}}>{movie.Title}</h3>
-                            <h4>Shoot Date: {moment(movie.ShootDate).format('DD-MM-YYYY')}</h4>
-                            <h4>Movie Site: {movie.Site}</h4>
-                            <h4>Movie Address: {movie.Address}</h4>
-
-                        </div>
+                        <Card style={{ width: '18rem' }}>
+                            <Card.Body>
+                                <Card.Title>{movie.Title}</Card.Title>
+                                <Card.Text>
+                                    Shoot Date: {moment(movie.ShootDate).format('DD-MM-YYYY')}
+                                </Card.Text>
+                                <Card.Text>
+                                    Movie Site:{movie.Site}.
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
                     </InfoWindow>: null}
 
                 </Marker>
